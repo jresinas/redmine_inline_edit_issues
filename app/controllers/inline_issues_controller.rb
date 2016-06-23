@@ -10,8 +10,8 @@ class InlineIssuesController < ApplicationController
   include InlineIssuesHelper
 
   def edit_multiple
-    get_ids    
     retrieve_query
+    get_ids    
     description_column = @query.columns.select{|c| c.name == :description}.first
     @query_inline_columns = description_column.present? ? 
       @query.inline_columns.insert(1, description_column) :
@@ -64,6 +64,8 @@ class InlineIssuesController < ApplicationController
       elsif params[:ids].class.name == "String"
         @ids = params[:ids].split(" ")
       end
+    else
+      @ids = @query.issues.map(&:id)
     end
   end
   

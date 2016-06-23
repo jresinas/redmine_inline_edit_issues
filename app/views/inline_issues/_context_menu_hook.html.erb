@@ -1,6 +1,6 @@
 <% unless @issue %>
     <li>
-        <%= context_menu_link l(:button_inline_edit), edit_multiple_inline_issues_path(:ids => @issue_ids, :project_id => (@project.present? ? @project.id : "")),
+        <%= context_menu_link l(:button_inline_edit), @project ? edit_multiple_project_inline_issues_path(@project, :ids => @issue_ids) : edit_multiple_inline_issues_path(:ids => @issue_ids),
         :class => 'icon-edit', :disabled => !@can[:edit] %>
     </li>
 <% end %>

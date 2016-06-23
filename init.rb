@@ -11,6 +11,7 @@ Redmine::Plugin.register :redmine_inline_edit_issues do
   
   # Minimum version of Redmine.
   requires_redmine :version_or_higher => '2.0.0'
+  requires_redmine_plugin :redmine_base_deface, :version_or_higher => '0.0.1'
   
   project_module :issue_tracking do
   permission :issues_inline_edit, :inline_issues => :edit_multiple
