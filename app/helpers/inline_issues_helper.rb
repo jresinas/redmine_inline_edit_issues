@@ -32,6 +32,8 @@ module InlineIssuesHelper
         f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] })
       when :is_private
         f.check_box :is_private
+      when :description
+        f.text_area :description
       else
         column_display_text(column, issue)
       end    

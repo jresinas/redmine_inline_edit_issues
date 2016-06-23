@@ -12,6 +12,11 @@ class InlineIssuesController < ApplicationController
   def edit_multiple
     get_ids    
     retrieve_query
+    description_column = @query.columns.select{|c| c.name == :description}.first
+    @query_inline_columns = description_column.present? ? 
+      @query.inline_columns.insert(1, description_column) :
+      @query.inline_columns
+
     sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
     sort_update(@query.sortable_columns)
     @query.sort_criteria = sort_criteria.to_a

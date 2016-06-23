@@ -2,7 +2,7 @@
     <div class="autoscroll">
         <table class="list issues">
             <thead>
-                <% @query.inline_columns.each do |column| %>
+                <% @query_inline_columns.each do |column| %>
                     <%= column_header(column) %>
                 <% end %>
             </thead>
@@ -18,7 +18,7 @@
                             <% end %>
                 
                             <tr class="group open">
-                                <td colspan="<%= @query.inline_columns.size + 2 %>">
+                                <td colspan="<%= @query_inline_columns.size + 2 %>">
                                     <span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span> 
                                     <%= group.blank? ? l(:label_none) : column_content(@query.group_by_column, issue) %> 
                                     <span class="count"><%= @issue_count_by_group[group] %></span> 
@@ -28,7 +28,7 @@
                             <% previous_group = group %>
                         <% end %>
                         <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> ">
-                            <% @query.inline_columns.each do |column| %>
+                            <% @query_inline_columns.each do |column| %>
                                 <td class="<%= column.css_classes %> <%= group_class_name(group) %>"> <%= column_form_content(column, issue, f) %> </td>
                             <% end %>
                         </tr>
@@ -38,7 +38,7 @@
                     <%= render 'group_totals', group: previous_group, query: @query%>
                 <% end %>
                 <tr class="inline_totals">
-                    <% @query.inline_columns.each do |column| %>
+                    <% @query_inline_columns.each do |column| %>
                         <td id="total-<%= column.name %>"><%= column_total(column, @issues)%></td>
                     <% end %>
                 </tr>
