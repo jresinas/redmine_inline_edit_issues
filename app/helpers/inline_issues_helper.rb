@@ -13,7 +13,7 @@ module InlineIssuesHelper
       when :tracker
         f.select :tracker_id, issue.project.trackers.collect {|t| [t.name, t.id]}
       when :status
-        f.select :status_id, (@available_statuses.collect {|p| [p.name, p.id]})
+        f.select :status_id, (issue.new_statuses_allowed_to.collect {|p| [p.name, p.id]})
       when :priority
         f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]})
       when :subject

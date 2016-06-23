@@ -29,7 +29,6 @@ class InlineIssuesController < ApplicationController
                               
       @issue_count_by_group = issue_count_by_group
       
-      @available_statuses = @issues.map(&:new_statuses_allowed_to).reduce(:&)
       @priorities = IssuePriority.active
     else
       # respond_to do |format|
