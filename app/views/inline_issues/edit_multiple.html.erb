@@ -1,0 +1,16 @@
+<h2><%= l(:label_inline_edit_selected_issues) %></h2>
+
+<%= render 'options_form'%>
+
+<%= render 'edit_form'%>
+
+
+<div id="field_original">
+    <div id="field_original_value">#</div>
+</div>
+
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag "inline_edit_issues", :plugin => 'inline_edit_issues' %>
+  <%= javascript_include_tag "inline_edit_issues", :plugin => 'inline_edit_issues' %>
+<% end %>

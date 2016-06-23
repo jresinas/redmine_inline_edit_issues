@@ -1,0 +1,39 @@
+= inline_edit_issues
+
+== Description
+
+This is a redmine plugin that allows you to edit fields of multiple issues in one view. 
+
+== Installation
+
+1. To install this plugin just clone it in your redmine's plugins folder
+2. Run `rake redmine:plugins:migrate RAILS_ENV=production` in your redmine folder
+3. Restart your webserver
+
+== Usage
+
+=== How to get to the Inline Edit screen
+1. Select a Project
+2. Click on the "Issues" tab.
+3. Check 2 or more issues (or click on the check at the top to select all).
+4. Right Click
+5. In the context menu, click on "Edit Inline"
+
+=== Editing fields
+1. The issues should appear as a form.  
+2. The issues that can be edited appear as the appropriate form field (text, select, checkbox, etc.)
+3. Fields that have been edited but not yet submitted will show as red.
+4. Hover over an edited field to see the original value.
+5. Reset all fields back to the original value by clicking on "Reset".
+6. "Cancel" returns to the previous screen without saving any changes
+
+=== Group Totals
+1. If "Estimated time" and "Spent time" fields have been selected for view, 
+   the field values will be summed up and the total displayed at the bottom.
+2. If you have grouped the results (Under "Options"), 
+   the estimated time and spent time totals will appear below each group.
+   The grand total will appear at the bottom.
+3. As you edit the estimated time field, the group totals and grand totals will automatically update.
+   NOTE: Spent time is not an editable field on this screen.
+
+

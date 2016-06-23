@@ -1,0 +1,33 @@
+#inline_edit_form {
+    width: 100%;
+}
+
+#field_original {
+    display: none;
+    float: right;
+    padding: 5px 15px;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 4px;
+    background: #FFD;
+    font-weight: bold;
+}
+
+.inline_totals {
+    font-weight: bold;
+}
+
+.inline_totals, .inline_group_totals {
+    text-align: center;
+}
+
+tr.group.inline_group_totals td {
+    border-bottom: none !important;
+    font-weight: normal !important;
+}
+
+td.has_background {
+    background: #D7434A;
+}
+
+

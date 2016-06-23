@@ -1,0 +1,51 @@
+<%= form_tag update_multiple_inline_issues_path, :id => 'inline_edit_form', method: :put do %>
+    <div class="autoscroll">
+        <table class="list issues">
+            <thead>
+                <% @query.inline_columns.each do |column| %>
+                    <%= column_header(column) %>
+                <% end %>
+            </thead>
+            <% previous_group = false %>
+            <tbody>
+                <% @issues.each do |issue| %>
+                    <%= fields_for "issues[]", issue do |f| %>
+                        <% if @query.grouped? && (group = @query.group_by_column.value(issue)) != previous_group %>
+                            <% reset_cycle %>
+                
+                            <% if previous_group %>
+                                <%= render 'group_totals', group: previous_group, query: @query%>
+                            <% end %>
+                
+                            <tr class="group open">
+                                <td colspan="<%= @query.inline_columns.size + 2 %>">
+                                    <span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span> 
+                                    <%= group.blank? ? l(:label_none) : column_content(@query.group_by_column, issue) %> 
+                                    <span class="count"><%= @issue_count_by_group[group] %></span> 
+                                    <%= link_to_function("#{l(:button_collapse_all)}/#{l(:button_expand_all)}", "toggleAllRowGroups(this)", :class => 'toggle-all') %> 
+                                </td>
+                            </tr>
+                            <% previous_group = group %>
+                        <% end %>
+                        <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> ">
+                            <% @query.inline_columns.each do |column| %>
+                                <td class="<%= column.css_classes %> <%= group_class_name(group) %>"> <%= column_form_content(column, issue, f) %> </td>
+                            <% end %>
+                        </tr>
+                    <% end %>
+                <% end %>
+                <% if previous_group %>
+                    <%= render 'group_totals', group: previous_group, query: @query%>
+                <% end %>
+                <tr class="inline_totals">
+                    <% @query.inline_columns.each do |column| %>
+                        <td id="total-<%= column.name %>"><%= column_total(column, @issues)%></td>
+                    <% end %>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <%= submit_tag l(:button_submit) %>
+    <input name="resetform" type="reset" id="inline_edit_reset" value="Reset" />
+    <%= link_to l(:button_cancel), project_issues_path(@project) %>
+<% end %>

@@ -1,0 +1,5 @@
+<tr class="group inline_group_totals">
+    <% query.inline_columns.each do |column| %>
+        <td id=<%= group_total_name(group, column) %>><%= group_column_total(column, @issues, group)%></td>
+    <% end %>
+</tr>
