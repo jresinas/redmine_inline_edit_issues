@@ -1,4 +1,5 @@
 <%= form_tag update_multiple_inline_issues_path, :id => 'inline_edit_form', method: :put do %>
+    <%= hidden_field_tag 'project_id', @project.id %>
     <div class="autoscroll">
         <table class="list issues">
             <thead>

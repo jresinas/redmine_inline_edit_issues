@@ -1,5 +1,5 @@
 class InlineIssuesController < ApplicationController
-  before_filter :find_project, :authorize, :only => :edit_multiple
+  before_filter :find_project, :authorize, :only => [:edit_multiple, :update_multiple]
   unloadable
 
   helper :queries
@@ -47,11 +47,19 @@ class InlineIssuesController < ApplicationController
   end
 
   def update_multiple
-    @project = Project.find(session[:query][:project_id]) if session[:query][:project_id].present?
-    Issue.update(params[:issues].keys, params[:issues].values)
-    flash[:notice] = l(:notice_successful_update)
-    
-    redirect_back_or_default _project_issues_path(@project)
+    errors = []
+    Issue.find(params[:issues].keys).each do |i|
+      upd = i.update_attributes(params[:issues][i.id.to_s])
+      errors += i.errors.full_messages.map{|m| l(:label_issue)+" #{i.id}: "+m} if !upd
+    end
+
+    if errors.present?
+      flash[:error] = errors.to_sentence
+      redirect_to :back
+    else
+      flash[:notice] = l(:notice_successful_update)
+      redirect_back_or_default _project_issues_path(@project)
+    end
   end
   
   private

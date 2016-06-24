@@ -14,6 +14,6 @@ Redmine::Plugin.register :redmine_inline_edit_issues do
   requires_redmine_plugin :redmine_base_deface, :version_or_higher => '0.0.1'
   
   project_module :issue_tracking do
-  permission :issues_inline_edit, :inline_issues => :edit_multiple
+  permission :issues_inline_edit, :inline_issues => [:edit_multiple, :update_multiple]
   end
 end
