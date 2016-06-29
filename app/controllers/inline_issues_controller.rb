@@ -73,7 +73,7 @@ class InlineIssuesController < ApplicationController
         @ids = params[:ids].split(" ")
       end
     else
-      @ids = @query.issues.map(&:id)
+      @ids = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version]).map(&:id)
     end
   end
   

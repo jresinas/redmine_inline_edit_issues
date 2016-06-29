@@ -82,10 +82,14 @@ module InlineIssuesHelper
   end
   
   def group_class_name(group)
-    if group.present?
-      # strip out white spaces from the group name
-      "group_" + group.name.gsub(/\s+/,"")
-    else
+    begin
+      if group.present?
+        # strip out white spaces from the group name
+        "group_" + group.name.gsub(/\s+/,"")
+      else
+        ""
+      end
+    rescue
       ""
     end
   end
