@@ -1,4 +1,9 @@
 $(document).ready(function() {
+    // Avoid autofocus
+    $(function(){
+        $('input').blur();
+    });
+
     $(function() {
         $('#inline_edit_form td input, #inline_edit_form td select').each(function() {
             $.data(this, 'default', this.value);
@@ -27,7 +32,6 @@ $(document).ready(function() {
                 $(this).css("color", "black");
             }
         }).hover(function() {
-            //if ($.data(this, 'edited') && !($(this).is(":checkbox"))) {
             if (!($(this).is(":checkbox"))) {
                 var originalValue = getDefaultValue($(this)) || "--BLANK--";
                 displayOriginalValue($(this), originalValue);
