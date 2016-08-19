@@ -1,6 +1,6 @@
 class InlineIssuesController < ApplicationController
   before_filter :find_project, :authorize, :only => [:edit_multiple, :update_multiple]
-  unloadable
+  
 
   helper :queries
   include QueriesHelper
