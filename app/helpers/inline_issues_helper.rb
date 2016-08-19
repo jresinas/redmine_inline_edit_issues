@@ -1,4 +1,6 @@
 module InlineIssuesHelper
+  include CustomFieldsHelper
+
   def inline_project_id
     @project.present? ? @project.id : ""
   end
@@ -156,7 +158,11 @@ module InlineIssuesHelper
     when "text"
       text_area_tag(field_name, custom_value.value, tag_options.merge(:rows => 3))
     when "bool"
-      hidden_field_tag(field_name, '0') + check_box_tag(field_name, '1', custom_value.true?, tag_options)
+      custom_value.custom_field.format.edit_tag self,
+        field_id,
+        field_name,
+        custom_value,
+        :class => "#{custom_value.custom_field.field_format}_cf"
     when "list"
       blank_option = ''.html_safe
       unless custom_field.multiple?
