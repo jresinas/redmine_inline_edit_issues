@@ -19,16 +19,16 @@ module InlineIssuesHelper
       when :priority
         f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]})
       when :subject
-        f.text_field :subject, size: 15
+        f.text_field :subject, size: 20
       when :assigned_to
         f.select :assigned_to_id, principals_options_for_select(issue.assignable_users, issue.assigned_to), :include_blank => true
       when :estimated_hours
-        f.text_field :estimated_hours, size: 5
+        f.text_field :estimated_hours, size: 3
       when :start_date
-        f.text_field(:start_date, size: 10) +
+        f.text_field(:start_date, size: 8) +
         calendar_for('issues_'+issue.id.to_s+'_start_date') 
       when :due_date
-        f.text_field(:due_date, size: 10) +
+        f.text_field(:due_date, size: 8) +
         calendar_for('issues_'+issue.id.to_s+'_due_date')
       when :done_ratio 
         f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] })
@@ -156,7 +156,7 @@ module InlineIssuesHelper
       text_field_tag(field_name, custom_value.value, tag_options.merge(:size => 10)) +
       calendar_for(field_id)
     when "text"
-      text_area_tag(field_name, custom_value.value, tag_options.merge(:rows => 3))
+      text_area_tag(field_name, custom_value.value, tag_options.merge(:rows => 5, :cols => 50, :style => "width:auto; resize:both;"))
     when "bool"
       custom_value.custom_field.format.edit_tag self,
         field_id,
