@@ -30,4 +30,14 @@ td.has_background {
     background: #D7434A;
 }
 
+input.string_cf, input.link_cf {
+    width: auto !important;
+}
 
+td input, td select {
+    min-width: 100%
+}
+
+table tbody td {
+    text-align: center !important;
+}

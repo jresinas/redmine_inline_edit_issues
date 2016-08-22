@@ -156,7 +156,7 @@ module InlineIssuesHelper
       text_field_tag(field_name, custom_value.value, tag_options.merge(:size => 10)) +
       calendar_for(field_id)
     when "text"
-      text_area_tag(field_name, custom_value.value, tag_options.merge(:rows => 5, :cols => 50, :style => "width:auto; resize:both;"))
+      text_area_tag(field_name, custom_value.value, tag_options.merge(:rows => 4, :cols => 65, :style => "width:auto; resize:both;"))
     when "bool"
       custom_value.custom_field.format.edit_tag self,
         field_id,
