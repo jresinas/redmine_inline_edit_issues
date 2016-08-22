@@ -1,6 +1,5 @@
 # English strings go here for Rails i18n
 en:
-  # my_label: "My label"
   button_inline_edit: Edit Inline
-  label_inline_edit_selected_issues: Inline edit selected issues
+  label_inline_edit_selected_issues: Inline edit
   permission_issues_inline_edit: Edit inline
