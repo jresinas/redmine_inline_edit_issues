@@ -44,6 +44,9 @@ class InlineIssuesController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     render_404
+  rescue Query::StatementInvalid
+    flash[:error] = l('label_no_issues_selected')
+    redirect_to :back
   end
 
   def update_multiple
