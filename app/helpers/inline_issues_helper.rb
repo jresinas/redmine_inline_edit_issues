@@ -15,9 +15,9 @@ module InlineIssuesHelper
       when :tracker
         f.select :tracker_id, issue.project.trackers.collect {|t| [t.name, t.id]}
       when :status
-        f.select :status_id, (issue.new_statuses_allowed_to.collect {|p| [p.name, p.id]})
+        f.select :status_id, issue.new_statuses_allowed_to.collect {|p| [p.name, p.id]}
       when :priority
-        f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]})
+        f.select :priority_id, @priorities.collect {|p| [p.name, p.id]}
       when :subject
         f.text_field :subject, size: 20
       when :assigned_to
@@ -36,6 +36,10 @@ module InlineIssuesHelper
         f.check_box :is_private
       when :description
         f.text_area :description
+      when :category
+        f.select :category_id, [["",""]] + issue.project.issue_categories.collect {|t| [t.name, t.id]}
+      when :fixed_version
+        f.select :fixed_version_id, [["",""]] + issue.project.versions.collect {|t| [t.name, t.id]}
       else
         column_display_text(column, issue)
       end    
