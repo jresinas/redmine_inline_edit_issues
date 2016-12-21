@@ -1,6 +1,13 @@
 <% unless @issue %>
     <li>
-        <%= context_menu_link l(:button_inline_edit), @project ? edit_multiple_project_inline_issues_path(@project, :ids => @issue_ids) : edit_multiple_inline_issues_path(:ids => @issue_ids),
-        :class => 'icon-edit', :disabled => !@can[:edit] %>
+    	<%
+    	uri = URI.parse(params[:back_url])
+    	if uri.query.present?
+	    	args = CGI.parse(uri.query)
+	    	col = args.keys.include?('c[]') ? args['c[]'] : nil
+	    end
+    	%>
+        <%= context_menu_link l(:button_inline_edit), @project ? edit_multiple_project_inline_issues_path(@project, :ids => @issue_ids, :c => col) : edit_multiple_inline_issues_path(:ids => @issue_ids, :back_url => params[:back_url], :c => col), :class => 'icon-edit', :disabled => !@can[:edit] %>
+        <%#= context_menu_link l(:button_inline_edit), '#', :onclick => "$('#query_form').attr('action', '"+(@project ? edit_multiple_project_inline_issues_path(@project, :ids => @issue_ids) : edit_multiple_inline_issues_path(:ids => @issue_ids, :back_url => params[:back_url]))+"').submit();", :class => 'icon-edit', :disabled => !@can[:edit] %>
     </li>
 <% end %>

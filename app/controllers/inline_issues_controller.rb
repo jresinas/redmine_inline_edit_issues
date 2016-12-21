@@ -1,5 +1,8 @@
 class InlineIssuesController < ApplicationController
-  before_filter :find_project, :authorize, :only => [:edit_multiple, :update_multiple]
+  before_filter :find_project, :only => [:edit_multiple, :update_multiple]
+  before_filter :retrieve_query, :get_ids_before_edit, :only => [:edit_multiple]
+  before_filter :get_ids_before_update, :only => [:update_multiple]
+  before_filter :find_projects, :authorize, :only => [:edit_multiple, :update_multiple]
   
 
   helper :queries
@@ -10,8 +13,6 @@ class InlineIssuesController < ApplicationController
   include InlineIssuesHelper
 
   def edit_multiple
-    retrieve_query
-    get_ids    
     description_column = @query.columns.select{|c| c.name == :description}.first
     @query_inline_columns = description_column.present? ? 
       @query.inline_columns.insert(1, description_column) :
@@ -31,6 +32,8 @@ class InlineIssuesController < ApplicationController
                               :offset => @offset,
                               :limit => @limit,
                               :conditions => inline_edit_condition)
+
+      @ids = @issues
                               
       @issue_count_by_group = issue_count_by_group
       
@@ -42,6 +45,8 @@ class InlineIssuesController < ApplicationController
         # format.api { render_validation_errors(@query) }
       # end
     end
+    @back_url = @project ? project_issues_path(@project) : params[:back_url]
+    @update_url = @project ? update_multiple_inline_issues_path(:project_id => @project) : update_multiple_inline_issues_path(:ids => @ids)
   rescue ActiveRecord::RecordNotFound
     render_404
   rescue Query::StatementInvalid
@@ -61,13 +66,13 @@ class InlineIssuesController < ApplicationController
       redirect_to :back
     else
       flash[:notice] = l(:notice_successful_update)
-      redirect_back_or_default _project_issues_path(@project)
+      redirect_back_or_default params[:back_url] #_project_issues_path(@project)
     end
   end
   
   private
   
-  def get_ids
+  def get_ids_before_edit
     @ids = []
     if params[:ids].present?
       if params[:ids].class.name == "Array"
@@ -79,9 +84,26 @@ class InlineIssuesController < ApplicationController
       @ids = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version]).map(&:id)
     end
   end
+
+  def get_ids_before_update
+    @ids = []
+    if params[:ids].present?
+      if params[:ids].class.name == "Array"
+        @ids = params[:ids]
+      elsif params[:ids].class.name == "String"
+        @ids = params[:ids].split(" ")
+      end
+    end
+    @ids
+  end
   
   def find_project
     @project = Project.find(params[:project_id]) if params[:project_id].present?
+    # @projects = params[:projects_id].present? ? Project.find(params[:projects_id]) : (params[:ids].present? ? Issue.find(params[:ids]).map(&:project_id).uniq : nil)
+  end
+
+  def find_projects
+    @projects = @ids ? Issue.find(@ids).map(&:project).uniq : nil
   end
   
   # Returns the issue count by group or nil if query is not grouped

@@ -1,5 +1,5 @@
-<%= form_tag update_multiple_inline_issues_path, :id => 'inline_edit_form', method: :put do %>
-    <%= hidden_field_tag 'project_id', @project.id %>
+<%= form_tag @update_url, :id => 'inline_edit_form', method: :put do %>
+    <%= hidden_field_tag 'back_url', @back_url %>
     <div class="autoscroll">
         <table class="list issues">
             <thead>
@@ -48,5 +48,5 @@
     </div>
     <%= submit_tag l(:button_submit) %>
     <input name="resetform" type="reset" id="inline_edit_reset" value="Reset" />
-    <%= link_to l(:button_cancel), project_issues_path(@project) %>
+    <%= link_to l(:button_cancel), @back_url %>
 <% end %>
