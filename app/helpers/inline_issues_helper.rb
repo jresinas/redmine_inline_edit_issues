@@ -168,6 +168,7 @@ module InlineIssuesHelper
         custom_value,
         :class => "#{custom_value.custom_field.field_format}_cf"
     when "list"
+    when "enumeration"
       blank_option = ''.html_safe
       unless custom_field.multiple?
         if custom_field.is_required?
