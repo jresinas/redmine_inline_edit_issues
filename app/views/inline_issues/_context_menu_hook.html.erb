@@ -1,4 +1,4 @@
-<% unless @issue %>
+<% if !@issue and params[:back_url].present? %>
     <li>
     	<%
     	uri = URI.parse(params[:back_url])
