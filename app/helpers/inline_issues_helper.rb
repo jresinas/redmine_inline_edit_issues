@@ -84,7 +84,7 @@ module InlineIssuesHelper
   end
   
   def inline_edit_condition
-    cond = "issues.id in (#{@ids.map{|i| i.to_i}.join(",")})"
+    cond = "issues.id in (#{@ids.map{|i| i.to_i}.join(',')})"
   end
   
   def group_class_name(group)

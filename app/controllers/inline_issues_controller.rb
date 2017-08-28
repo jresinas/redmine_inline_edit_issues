@@ -33,7 +33,7 @@ class InlineIssuesController < ApplicationController
                               :limit => @limit,
                               :conditions => inline_edit_condition)
 
-      @ids = @issues
+      @ids = @issues.map(&:id)
                               
       @issue_count_by_group = issue_count_by_group
       
@@ -83,6 +83,7 @@ class InlineIssuesController < ApplicationController
     else
       @ids = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version]).map(&:id)
     end
+    @ids
   end
 
   def get_ids_before_update
@@ -120,7 +121,7 @@ class InlineIssuesController < ApplicationController
           where(inline_edit_condition).
           count
       rescue ActiveRecord::RecordNotFound
-        r = {nil => issue_count}
+        r = {nil => @query.issue_count}
       end
       c = @query.group_by_column
       if c.is_a?(QueryCustomFieldColumn)
